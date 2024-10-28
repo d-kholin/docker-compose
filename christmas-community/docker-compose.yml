@@ -1,0 +1,27 @@
+version: "3"
+services:
+  christmas-community:
+    container_name: christmas-community
+    image: wingysam/christmas-community
+    volumes:
+      - data1:/data
+    environment:
+      # Amazon Smile, set to 'false' to disable www.amazon.com links
+      # turning into smile.amazon.com
+      SMILE: 'true'
+      # Table mode, set to 'false' to revert to box mode
+      TABLE: 'true'
+      # Single list mode
+      # (for weddings, birthdays, etc. only the admin account's list is accessible)
+      # Set to 'true' to enable
+      SINGLE_LIST: 'false'
+      SITE_TITLE: Griffiths Christmas
+    restart: always
+    
+volumes:
+  data1: {}
+
+networks:
+  default:
+    external:
+      name: ProxyNet
