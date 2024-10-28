@@ -1,0 +1,1 @@
+This docker compose file assumes it's on the same docker network as a reverse proxy. If not, you should add port 80:80
