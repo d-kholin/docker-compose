@@ -25,6 +25,8 @@ services:
       WEB_VAULT_ENABLED: ${WEB_VAULT_ENABLED}
     ports:
       - "8442:80"
+    env_file:
+      - stack.env
 volumes:
   bw: {}
 
