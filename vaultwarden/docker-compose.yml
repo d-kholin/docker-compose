@@ -10,8 +10,3 @@ services:
       - ../stack.env
 volumes:
   bw: {}
-
-networks:
-  default:
-    external:
-      name: ProxyNet
