@@ -8,7 +8,7 @@ services:
       - "bw:/data"
     environment:
 
-      SIGNUPS_ALLOWED: "true" # set to false to disable signups
+      SIGNUPS_ALLOWED="true" # set to false to disable signups
       SMTP_HOST=${SMTP_HOST}
       SMTP_FROM=${SMTP_FROM}
       SMTP_PORT=${SMTP_PORT}
