@@ -5,6 +5,9 @@ services:
     image: bbilly1/tubearchivist
     ports:
       - 8000:8000
+    env_file:
+      - ../stack.env
+
     volumes:
       - media:/youtube
       - cache:/cache
@@ -41,6 +44,9 @@ services:
     image: bbilly1/tubearchivist-es         # only for amd64, or use official es 8.14.3
     container_name: archivist-es
     restart: unless-stopped
+    env_file:
+      - ../stack.env
+
     environment:
       - "ELASTIC_PASSWORD=${ELASTIC_PASSWORD}"       # matching Elasticsearch password
       - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
