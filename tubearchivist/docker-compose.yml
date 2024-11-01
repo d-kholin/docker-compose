@@ -2,7 +2,7 @@ services:
   tubearchivist:
     container_name: tubearchivist
     restart: unless-stopped
-    image: bbilly1/tubearchivist
+    image: bbilly1/tubearchivist:0.4.10
     ports:
       - 8000:8000
     env_file:
@@ -31,7 +31,7 @@ services:
       - archivist-es
       - archivist-redis
   archivist-redis:
-    image: redis/redis-stack-server
+    image: redis/redis-stack-server:7.4.0-v1
     container_name: archivist-redis
     restart: unless-stopped
     expose:
@@ -41,7 +41,7 @@ services:
     depends_on:
       - archivist-es
   archivist-es:
-    image: bbilly1/tubearchivist-es         # only for amd64, or use official es 8.14.3
+    image: bbilly1/tubearchivist-es:8.14.3         # only for amd64, or use official es 8.14.3
     container_name: archivist-es
     restart: unless-stopped
     env_file:
