@@ -1,0 +1,10 @@
+services:
+  readeck:
+    image: codeberg.org/readeck/readeck:0.16.0
+    restart: always
+    volumes:
+      - "readeck:/readeck"
+    ports:
+      - "8954:8000"
+volumes:
+  readeck: {}
