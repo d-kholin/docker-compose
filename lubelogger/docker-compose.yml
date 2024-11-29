@@ -1,7 +1,7 @@
 ---
 services:
   app:
-    image: ghcr.io/hargata/lubelogger:1.4.1
+    image: hargata/lubelogger:v1.4.0
     build: .
     restart: unless-stopped
     # volumes used to keep data persistent
