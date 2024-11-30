@@ -1,0 +1,11 @@
+services:
+  actual_server:
+    image: docker.io/actualbudget/actual-server:24.11.0
+    ports:
+      - '5008:5006'
+    volumes:
+      - griffiths-budget:/data
+    restart: unless-stopped
+    
+volumes:
+  griffiths-budget: {}
