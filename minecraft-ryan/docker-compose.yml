@@ -1,0 +1,13 @@
+services:
+  minecraft:
+    image: itzg/minecraft-server
+    ports:
+      - "25566:25565"
+    volumes:
+      - "minecraft:/data"
+    environment:
+      EULA: "TRUE"
+    restart: always
+
+volumes:
+  minecraft: {}
