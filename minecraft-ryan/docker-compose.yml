@@ -1,6 +1,6 @@
 services:
   minecraft:
-    image: itzg/minecraft-server
+    image: itzg/minecraft-server:1.21.4
     ports:
       - "25566:25565"
     volumes:
