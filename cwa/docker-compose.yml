@@ -1,0 +1,19 @@
+---
+services:
+  calibre-web-automated:
+    image: crocodilestick/calibre-web-automated:latest
+    container_name: calibre-web-automated
+    volumes:
+      - config:/config
+      - ingest:/cwa-book-ingest
+      - library:/calibre-library
+      #- /path/to/your/gmail/credentials.json:/app/calibre-web/gmail.json #Optional
+    ports:
+      - 8846:8083 # Change the first number to change the port you want to access the Web UI, not the second
+    restart: unless-stopped
+    env_file:
+      - ../stack.env
+volumes:
+  config: {}
+  ingest: {}
+  library: {}
