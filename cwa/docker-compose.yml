@@ -1,7 +1,7 @@
 ---
 services:
   calibre-web-automated:
-    image: crocodilestick/calibre-web-automated:latest
+    image: crocodilestick/calibre-web-automated:V2.1.2
     container_name: calibre-web-automated
     volumes:
       - config:/config
