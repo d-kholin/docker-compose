@@ -1,0 +1,124 @@
+---
+# Homepage configuration
+# See https://fontawesome.com/search for icons options
+
+title: "Griffiths Services"
+subtitle: "So many things..."
+# logo: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/google.png
+icon: "fas fa-server" # Optional icon
+
+header: true
+footer: false # set false if you want to hide it.
+
+# Optional theme customization
+theme: default
+
+# Optional theme customization (color overrrides)
+# overrrides can also be done using CSS vars 
+colors:
+  light:
+    highlight-primary: "#3367d6"
+    highlight-secondary: "#4285f4"
+    highlight-hover: "#5a95f5"
+    background: "#f5f5f5"
+    card-background: "#ffffff"
+    text: "#363636"
+    text-header: "#ffffff"
+    text-title: "#303030"
+    text-subtitle: "#424242"
+    card-shadow: rgba(0, 0, 0, 0.1)
+    link: "#3273dc"
+    link-hover: "#363636"
+  dark:
+    highlight-primary: "#3367d6"
+    highlight-secondary: "#4285f4"
+    highlight-hover: "#5a95f5"
+    background: "#131313"
+    card-background: "#2b2b2b"
+    text: "#eaeaea"
+    text-header: "#ffffff"
+    text-title: "#fafafa"
+    text-subtitle: "#f5f5f5"
+    card-shadow: rgba(0, 0, 0, 0.4)
+    link: "#3273dc"
+    link-hover: "#ffdd57"
+
+# Optional message
+#message:
+#  url: https://auth.thegriffiths.ca
+#  style: "is-dark" # See https://bulma.io/documentation/components/message/#colors for styling options.
+#  title: "Under construction!"
+#  icon: "fas fa-person-digging"
+#  content: "See the Griffiths Services! This will be a work in progress for a bit."
+
+# Optional navbar
+# links: [] # Allows for navbar (dark mode, layout, and search) without any links
+links:
+  - name: "Status"
+    icon: "fas fa-chart-line"
+    url: "https://uptime.thegriffiths.ca/status/stuffs"
+    target: "_blank" # optional html a tag target attribute
+  # this will link to a second homer page that will load config from additional-page.yml and keep default config values as in config.yml file
+  # see url field and assets/additional-page.yml.dist used in this example:
+  #- name: "another page!"
+  #  icon: "fas fa-file-alt"
+  #  url: "#additional-page" 
+
+# Services
+# First level array represent a group.
+# Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
+services:
+  - name: "General"
+    icon: "fas fa-cloud"
+    items:
+      - name: "NextCloud"
+        logo: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/nextcloud.png
+        subtitle: "Cloud file storage"
+        tag: "files,stuff"
+        url: "https://cloud.thegriffiths.ca"
+        target: "_blank"
+      - name: "Vaultwarden"
+        logo: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/vaultwarden.png
+        subtitle: "Password Manager"
+        tag: "Password"
+        url: "https://pass.thegriffiths.ca"
+        target: "_blank"
+      - name: "Mealie"
+        logo: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/mealie.png
+        subtitle: "Recipie Manager"
+        tag: "food"
+        url: "https://recipies.thegriffiths.ca"
+        target: "_blank"
+      - name: "ActualBudget"
+        logo: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/actual.png
+        subtitle: "Budget management"
+        tag: "money"
+        url: "https://budget.thegriffiths.ca"
+        target: "_blank"        
+  - name: "Media"
+    icon: "fas fa-video"
+    items: 
+      - name: "Jellyfin"
+        logo: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/jellyfin.png
+        subtitle: "Griffiths Movies!"
+        tag: "movie"
+        url: https://media.thegriffiths.ca
+        target: "_blank"
+      - name: "Library"
+        logo: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/calibre-web.png
+        subtitle: "Books to read!"
+        tag: "books"
+        url: https://library.thegriffiths.ca
+        target: "_blank"
+      - name: "Audiobooks"
+        logo: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/audiobookshelf.png
+        subtitle: "Books to listen to!"
+        tag: "books"
+        url: https://audio.thegriffiths.ca
+        target: "_blank"
+      - name: "Photos"
+        logo: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/immich.png
+        subtitle: "A place to organize your photos"
+        tag: "photos"
+        url: https://photos.thegriffiths.ca
+        target: "_blank"
