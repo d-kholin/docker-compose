@@ -2,7 +2,7 @@ services:
   tubearchivist:
     container_name: tubearchivist
     restart: unless-stopped
-    image: bbilly1/tubearchivist:v0.4.12
+    image: bbilly1/tubearchivist:v0.4.13
     ports:
       - 8000:8000
     env_file:
