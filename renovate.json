@@ -6,7 +6,7 @@
   "packageRules": [
     {
       "matchDatasources": ["docker"],
-      "matchPackageNames": ["hargata/lubelogger"],
+      "matchPackageNames": ["lubelogger"],
       "versioning": "loose"
     }
   ]
