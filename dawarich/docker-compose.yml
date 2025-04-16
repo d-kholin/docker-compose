@@ -144,8 +144,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.50'    # Limit CPU usage to 50% of one core
-          memory: '4G'    # Limit memory usage to 4GB
+          cpus: '2'    # Limit CPU usage to 50% of one core
+          memory: '6G'    # Limit memory usage to 4GB
 
 volumes:
   dawarich_db_data:
