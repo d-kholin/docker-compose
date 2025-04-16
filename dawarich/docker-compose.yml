@@ -129,7 +129,7 @@ services:
       test: [ "CMD-SHELL", "bundle exec sidekiqmon processes | grep $${HOSTNAME}" ]
       interval: 10s
       retries: 30
-      start_period: 30s
+      start_period: 300s
       timeout: 10s
     depends_on:
       dawarich_db:
