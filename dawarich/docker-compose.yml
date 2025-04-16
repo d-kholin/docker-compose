@@ -14,7 +14,7 @@ services:
       test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
       interval: 10s
       retries: 5
-      start_period: 30s
+      start_period: 300s
       timeout: 10s
   dawarich_db:
     image: postgis/postgis:14-3.5-alpine
