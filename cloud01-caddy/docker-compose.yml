@@ -1,6 +1,6 @@
 services:
   caddy:
-    image: caddy:2.9
+    image: caddy:2.10
     restart: unless-stopped
     ports:
       - "80:80"
