@@ -2,11 +2,11 @@ version: '3.8'
 
 services:
   tooltracker:
-    image: ghcr.io/d-kholin/tooltracker/tooltracker:1.0.11
+    image: ghcr.io/d-kholin/tooltracker/tooltracker:1.0.12
     ports:
       - "5000:5000"
     volumes:
-      - tooltracker_data:/app
+      - tooltracker_data:/data
     environment:
       - FLASK_ENV=production
       - FLASK_DEBUG=0
