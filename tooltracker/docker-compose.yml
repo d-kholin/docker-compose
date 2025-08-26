@@ -6,13 +6,12 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - tooltracker_data:/app/data
-
+      - tooltracker_data:/app
     environment:
       - FLASK_ENV=production
       - FLASK_DEBUG=0
-      - TOOLTRACKER_DB=/app/data/tooltracker.db
-      - UPLOAD_FOLDER=/app/data/images
+    env_file:
+      - ../stack.env
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/')"]
