@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  tooltracker:
+    image: ghcr.io/d-kholin/tooltracker/tooltracker:latest
+    ports:
+      - "5000:5000"
+    volumes:
+      # Mount the working directory for database persistence
+      - tooltracker_data:/app
+      # Alternative: Mount specific database file location
+      # - tooltracker_db:/app/tooltracker.db
+    environment:
+      - FLASK_ENV=production
+      - FLASK_DEBUG=0
+      # Optional: Set custom database path if needed
+      # - TOOLTRACKER_DB=/app/data/tooltracker.db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    # Optional: Add environment variables for configuration
+    # - DATABASE_URL=your_database_url
+    # - SECRET_KEY=your_secret_key
+
+volumes:
+  tooltracker_data:
