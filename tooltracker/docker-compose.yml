@@ -7,9 +7,9 @@ services:
       - "5000:5000"
     volumes:
       # Mount the working directory for database persistence
-      - tooltracker_data:/app
-      # Alternative: Mount specific database file location
-      # - tooltracker_db:/app/tooltracker.db
+      - tooltracker_data:/app/data
+      - tooltracker_logs:/app/logs
+
     environment:
       - FLASK_ENV=production
       - FLASK_DEBUG=0
@@ -22,9 +22,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-    # Optional: Add environment variables for configuration
-    # - DATABASE_URL=your_database_url
-    # - SECRET_KEY=your_secret_key
 
 volumes:
   tooltracker_data:
+  tooltracker_logs:
