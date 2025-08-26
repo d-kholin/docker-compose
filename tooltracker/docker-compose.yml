@@ -6,11 +6,8 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      # Mount the working directory for database persistence
       - tooltracker_db:/app/tooltracker.db
-      # Mount uploaded images directory (but not the app.js file)
       - tooltracker_images:/app/static/images
-      # Mount data directory for any other persistent data
 
     environment:
       - FLASK_ENV=production
