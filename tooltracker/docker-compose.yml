@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   tooltracker:
-    image: ghcr.io/d-kholin/tooltracker/tooltracker:1.0.14
+    image: ghcr.io/d-kholin/tooltracker/tooltracker:1.0.15
     ports:
       - "5000:5000"
     volumes:
