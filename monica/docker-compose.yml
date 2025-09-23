@@ -1,61 +1,41 @@
+version: "3.4"
+
 services:
-  monica:
-    image: lscr.io/linuxserver/monica:latest
+  app:
+    image: monica
     container_name: monica
-    restart: unless-stopped
+    depends_on:
+      - db
     ports:
       - 8065:80
     env_file:
       - ../stack.env
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=${TZ}
       - APP_KEY=${APP_KEY}
-      - DB_HOST=monica-db
+      - DB_HOST=db
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_DATABASE=${DB_DATABASE}
     volumes:
-      - monica_data:/config
-    depends_on:
-      - monica-db
-    networks:
-      - monica-network
-    healthcheck:
-      test: [CMD, curl, -f, http://localhost/health]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
+      - data:/var/www/html/storage
+    restart: always
 
-  monica-db:
-    image: mysql:8.0
+  db:
+    image: mariadb:11
     container_name: monica-db
-    restart: unless-stopped
     env_file:
       - ../stack.env
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
       - MYSQL_DATABASE=${DB_DATABASE}
       - MYSQL_USER=${DB_USERNAME}
       - MYSQL_PASSWORD=${DB_PASSWORD}
-      - TZ=${TZ}
     volumes:
-      - monica_db_data:/var/lib/mysql
-    networks:
-      - monica-network
-    healthcheck:
-      test: [CMD, mysqladmin, ping, -h, localhost, -u, $$DB_USERNAME, -p$$DB_PASSWORD]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
+      - mysql:/var/lib/mysql
+    restart: always
 
 volumes:
-  monica_data:
-  monica_db_data:
-
-networks:
-  monica-network:
-    driver: bridge
+  data:
+    name: monica_data
+  mysql:
+    name: monica_db_data
