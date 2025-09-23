@@ -1,0 +1,51 @@
+services:
+  monica:
+    image: monicahq/monica:apache
+    container_name: monica
+    restart: unless-stopped
+    ports:
+      - 8065:80
+    env_file:
+      - ../stack.env
+    environment:
+      - APP_KEY=${APP_KEY}
+      - DB_HOST=${DB_HOST}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - TZ=${TZ}
+    volumes:
+      - monica_data:/var/www/html/storage
+    depends_on:
+      - monica-db
+    healthcheck:
+      test: [CMD, curl, -f, http://localhost/health]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  monica-db:
+    image: mysql:8.0
+    container_name: monica-db
+    restart: unless-stopped
+    env_file:
+      - ../stack.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - TZ=${TZ}
+    volumes:
+      - monica_db_data:/var/lib/mysql
+    healthcheck:
+      test: [CMD, mysqladmin, ping, -h, localhost, -u, $$DB_USERNAME, -p$$DB_PASSWORD]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  monica_data:
+  monica_db_data:
