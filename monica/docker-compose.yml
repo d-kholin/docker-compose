@@ -1,6 +1,6 @@
 services:
   monica:
-    image: monicahq/monica:apache
+    image: lscr.io/linuxserver/monica:latest
     container_name: monica
     restart: unless-stopped
     ports:
@@ -8,14 +8,16 @@ services:
     env_file:
       - ../stack.env
     environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
       - APP_KEY=${APP_KEY}
       - DB_HOST=${DB_HOST}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_DATABASE=${DB_DATABASE}
-      - TZ=${TZ}
     volumes:
-      - monica_data:/var/www/html/storage
+      - monica_data:/config
     depends_on:
       - monica-db
     healthcheck:
