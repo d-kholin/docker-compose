@@ -12,7 +12,7 @@ services:
       - PGID=1000
       - TZ=${TZ}
       - APP_KEY=${APP_KEY}
-      - DB_HOST=${DB_HOST}
+      - DB_HOST=monica-db
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_DATABASE=${DB_DATABASE}
@@ -20,6 +20,8 @@ services:
       - monica_data:/config
     depends_on:
       - monica-db
+    networks:
+      - monica-network
     healthcheck:
       test: [CMD, curl, -f, http://localhost/health]
       interval: 30s
@@ -41,6 +43,8 @@ services:
       - TZ=${TZ}
     volumes:
       - monica_db_data:/var/lib/mysql
+    networks:
+      - monica-network
     healthcheck:
       test: [CMD, mysqladmin, ping, -h, localhost, -u, $$DB_USERNAME, -p$$DB_PASSWORD]
       interval: 30s
@@ -51,3 +55,7 @@ services:
 volumes:
   monica_data:
   monica_db_data:
+
+networks:
+  monica-network:
+    driver: bridge
