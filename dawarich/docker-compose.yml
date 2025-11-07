@@ -148,25 +148,25 @@ services:
           memory: '6G'    # Limit memory usage to 4GB
 
 # Migration Container Below -----
-dawarich_db_pg_17:
-  image: postgis/postgis:17-3.5-alpine
-  shm_size: 1G
-  container_name: dawarich_db_pg_17
-  volumes:
-    - dawarich_db_data_pg_17:/var/lib/postgresql/data
-    - dawarich_shared:/var/shared
-  networks:
-    - dawarich
-  environment:
-    POSTGRES_USER: postgres
-    POSTGRES_PASSWORD: password
-  restart: always
-  healthcheck:
-    test: [ "CMD-SHELL", "pg_isready -U postgres -d dawarich_development" ]
-    interval: 10s
-    retries: 5
-    start_period: 30s
-    timeout: 10s
+  dawarich_db_pg_17:
+    image: postgis/postgis:17-3.5-alpine
+    shm_size: 1G
+    container_name: dawarich_db_pg_17
+    volumes:
+      - dawarich_db_data_pg_17:/var/lib/postgresql/data
+      - dawarich_shared:/var/shared
+    networks:
+      - dawarich
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d dawarich_development" ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
 # Migration Container
 
 volumes:
