@@ -6,7 +6,7 @@ services:
         restart: unless-stopped
         entrypoint: ["/bin/sh", "-c", "sleep 20; node index.js"]
         volumes:
-            - ./data:/app/data
+            - /opt/z2m/data:/app/data
             - /run/udev:/run/udev:ro
         ports:
             # Frontend port
