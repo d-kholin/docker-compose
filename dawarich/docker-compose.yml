@@ -17,12 +17,13 @@ services:
       start_period: 300s
       timeout: 10s
   dawarich_app:
-    image: freikin/dawarich:0.25.5
+    image: freikin/dawarich:0.27.0
     container_name: dawarich_app
     volumes:
       - dawarich_public:/var/app/public
       - dawarich_watched:/var/app/tmp/imports/watched
       - dawarich_storage:/var/app/storage
+      - dawarich_db_data:/dawarich_db_data
     networks:
       - dawarich
     ports:
@@ -48,7 +49,9 @@ services:
       PROMETHEUS_EXPORTER_ENABLED: false
       PROMETHEUS_EXPORTER_HOST: 0.0.0.0
       PROMETHEUS_EXPORTER_PORT: 9394
-      ENABLE_TELEMETRY: false # More on telemetry: https://dawarich.app/docs/tutorials/telemetry
+      QUEUE_DATABASE_PATH: /dawarich_db_data/dawarich_development_queue.sqlite3
+      CACHE_DATABASE_PATH: /dawarich_db_data/dawarich_development_cache.sqlite3
+      CABLE_DATABASE_PATH: /dawarich_db_data/dawarich_development_cable.sqlite3
       SELF_HOSTED: 'true'
     logging:
       driver: "json-file"
