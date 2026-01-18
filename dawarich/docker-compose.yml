@@ -2,13 +2,14 @@ networks:
   dawarich:
 services:
   dawarich_app:
-    image: freikin/dawarich:0.27.2
+    image: freikin/dawarich:0.27.4
     container_name: dawarich_app
     volumes:
       - dawarich_public:/var/app/public
       - dawarich_watched:/var/app/tmp/imports/watched
       - dawarich_storage:/var/app/storage
       - dawarich_db_data:/dawarich_db_data
+      - dawarich_sqlite_data:/dawarich_sqlite_data
     networks:
       - dawarich
     ports:
@@ -27,15 +28,19 @@ services:
       DATABASE_NAME: dawarich_development
       MIN_MINUTES_SPENT_IN_CITY: 60
       APPLICATION_HOSTS: "localhost,location.thegriffiths.ca"
-      TIME_ZONE: Europe/London
+      TIME_ZONE: America/Edmonton
       APPLICATION_PROTOCOL: http
       DISTANCE_UNIT: km
       PROMETHEUS_EXPORTER_ENABLED: false
       PROMETHEUS_EXPORTER_HOST: 0.0.0.0
       PROMETHEUS_EXPORTER_PORT: 9394
-      QUEUE_DATABASE_PATH: /dawarich_db_data/dawarich_development_queue.sqlite3
-      CACHE_DATABASE_PATH: /dawarich_db_data/dawarich_development_cache.sqlite3
-      CABLE_DATABASE_PATH: /dawarich_db_data/dawarich_development_cable.sqlite3
+      CACHE_DATABASE_PATH: /dawarich_sqlite_data/dawarich_development_cache.sqlite3
+      CABLE_DATABASE_PATH: /dawarich_sqlite_data/dawarich_development_cable.sqlite3
+      QUEUE_DATABASE_NAME: dawarich_development_queue
+      QUEUE_DATABASE_PASSWORD: password
+      QUEUE_DATABASE_USERNAME: postgres
+      QUEUE_DATABASE_PORT: 5432
+      QUEUE_DATABASE_HOST: dawarich_db
       SELF_HOSTED: 'true'
     logging:
       driver: "json-file"
@@ -76,7 +81,6 @@ services:
       retries: 5
       start_period: 30s
       timeout: 10s
-# Migration Container
 
 volumes:
   dawarich_db_data:
@@ -85,3 +89,4 @@ volumes:
   dawarich_watched:
   dawarich_db_data_pg_17:
   dawarich_storage:
+  dawarich_sqlite_data:
