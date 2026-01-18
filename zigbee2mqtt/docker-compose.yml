@@ -2,7 +2,7 @@ version: '3.8'
 services:
     zigbee2mqtt:
         container_name: zigbee2mqtt
-        image: koenkk/zigbee2mqtt
+        image: koenkk/zigbee2mqtt:2.7.2
         restart: unless-stopped
         entrypoint: ["/bin/sh", "-c", "sleep 20; node index.js"]
         volumes:
