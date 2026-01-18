@@ -16,28 +16,6 @@ services:
       retries: 5
       start_period: 300s
       timeout: 10s
-  dawarich_db:
-    image: postgis/postgis:14-3.5-alpine
-    shm_size: 1G
-    container_name: dawarich_db
-    volumes:
-      - dawarich_db_data:/var/lib/postgresql/data
-      - dawarich_shared:/var/shared
-      # - ./postgresql.conf:/etc/postgresql/postgresql.conf # Optional, uncomment if you want to use a custom config
-    networks:
-      - dawarich
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: dawarich_development
-    restart: always
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres -d dawarich_development" ]
-      interval: 10s
-      retries: 5
-      start_period: 300s
-      timeout: 10s
-    # command: postgres -c config_file=/etc/postgresql/postgresql.conf # Use custom config, uncomment if you want to use a custom config
   dawarich_app:
     image: freikin/dawarich:0.25.5
     container_name: dawarich_app
@@ -147,12 +125,10 @@ services:
         limits:
           cpus: '2'    # Limit CPU usage to 50% of one core
           memory: '6G'    # Limit memory usage to 4GB
-
-# Migration Container Below -----
-  dawarich_db_pg_17:
+  dawarich_db:
     image: postgis/postgis:17-3.5-alpine
     shm_size: 1G
-    container_name: dawarich_db_pg_17
+    container_name: dawarich_db
     volumes:
       - dawarich_db_data_pg_17:/var/lib/postgresql/data
       - dawarich_shared:/var/shared
