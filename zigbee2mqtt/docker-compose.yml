@@ -4,6 +4,7 @@ services:
         container_name: zigbee2mqtt
         image: koenkk/zigbee2mqtt
         restart: unless-stopped
+        entrypoint: ["/bin/sh", "-c", "sleep 20; node index.js"]
         volumes:
             - ./data:/app/data
             - /run/udev:/run/udev:ro
