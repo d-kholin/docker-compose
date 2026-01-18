@@ -22,6 +22,7 @@ services:
     volumes:
       - dawarich_public:/var/app/public
       - dawarich_watched:/var/app/tmp/imports/watched
+      - dawarich_storage:/var/app/storage
     networks:
       - dawarich
     ports:
@@ -48,6 +49,7 @@ services:
       PROMETHEUS_EXPORTER_HOST: 0.0.0.0
       PROMETHEUS_EXPORTER_PORT: 9394
       ENABLE_TELEMETRY: false # More on telemetry: https://dawarich.app/docs/tutorials/telemetry
+      SELF_HOSTED: 'true'
     logging:
       driver: "json-file"
       options:
@@ -77,6 +79,7 @@ services:
     volumes:
       - dawarich_public:/var/app/public
       - dawarich_watched:/var/app/tmp/imports/watched
+      - dawarich_storage:/var/app/storage
     networks:
       - dawarich
     stdin_open: true
@@ -99,6 +102,7 @@ services:
       PROMETHEUS_EXPORTER_HOST: dawarich_app
       PROMETHEUS_EXPORTER_PORT: 9394
       ENABLE_TELEMETRY: false # More on telemetry: https://dawarich.app/docs/tutorials/telemetry
+      SELF_HOSTED: 'true'
     logging:
       driver: "json-file"
       options:
@@ -152,3 +156,4 @@ volumes:
   dawarich_public:
   dawarich_watched:
   dawarich_db_data_pg_17:
+  dawarich_storage:
