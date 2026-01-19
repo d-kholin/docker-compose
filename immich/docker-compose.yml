@@ -2,6 +2,8 @@ services:
   immich-server:
     container_name: immich_server
     image: ghcr.io/immich-app/immich-server:v2.4.1
+    env_file:
+      - ../stack.env
     volumes:
       - /home/michael/immich-uploads:/usr/src/app/upload
     ports:
