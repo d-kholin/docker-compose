@@ -2,7 +2,6 @@
 services:
   app:
     image: hargata/lubelogger:v1.5.7
-    build: .
     restart: unless-stopped
     # volumes used to keep data persistent
     volumes:
