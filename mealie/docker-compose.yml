@@ -1,0 +1,37 @@
+services:
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:v3.3.0 # 
+    container_name: mealie
+    ports:
+        - "9925:9000" # 
+    deploy:
+      resources:
+        limits:
+          memory: 1000M # 
+    depends_on:
+      - postgres
+    volumes:
+      - mealie-data:/app/data/
+    environment:
+      - DB_ENGINE=postgres
+      - POSTGRES_USER=mealie
+      - POSTGRES_PASSWORD=mealie
+      - POSTGRES_SERVER=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=mealie
+    restart: always
+  postgres:
+    container_name: postgres
+    image: postgres:15
+    restart: always
+    volumes:
+      - mealie-pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: mealie
+      POSTGRES_USER: mealie
+
+volumes:
+  mealie-data:
+    driver: local
+  mealie-pgdata:
+    driver: local
