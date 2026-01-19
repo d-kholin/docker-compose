@@ -124,6 +124,8 @@ services:
       PROMETHEUS_EXPORTER_PORT: 9394
       SELF_HOSTED: "true"
       STORE_GEODATA: "true"
+      PHOTON_API_HOST: 172.20.1.181:2322
+      PHOTON_API_USE_HTTPS: false
     logging:
       driver: "json-file"
       options:
