@@ -13,7 +13,7 @@ services:
 
   immich-machine-learning:
     container_name: immich_machine_learning
-    image: ghcr.io/immich-app/immich-machine-learning:v2.4.1-release
+    image: ghcr.io/immich-app/immich-machine-learning:v2.4.1
     volumes:
       - model-cache:/cache
     restart: always
