@@ -12,13 +12,8 @@ services:
       - postgres
     volumes:
       - mealie-data:/app/data/
-    environment:
-      - DB_ENGINE=postgres
-      - POSTGRES_USER=mealie
-      - POSTGRES_PASSWORD=mealie
-      - POSTGRES_SERVER=postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_DB=mealie
+    env_file:
+      - ../stack.env
     restart: always
   postgres:
     container_name: postgres
