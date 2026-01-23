@@ -1,0 +1,22 @@
+version: "2"
+services:
+  bookstack:
+    image: lscr.io/linuxserver/bookstack
+    container_name: bookstack
+    volumes:
+      - bookstack_app_data:/config
+    ports:
+      - 6875:80
+    restart: unless-stopped
+    depends_on:
+      - bookstack_db
+  bookstack_db:
+    image: lscr.io/linuxserver/mariadb
+    container_name: bookstack_db
+    volumes:
+      - bookstack_db_data:/config
+    restart: unless-stopped
+volumes:
+  bookstack_db_data: {}
+  bookstack_app_data: {}
+  
