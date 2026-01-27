@@ -50,7 +50,7 @@ services:
       
 
   gotenberg:
-    image: docker.io/gotenberg/gotenberg:8.25
+    image: docker.io/gotenberg/gotenberg:8.26
     restart: unless-stopped
 
     command:
