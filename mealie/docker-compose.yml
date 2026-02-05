@@ -1,6 +1,6 @@
 services:
   mealie:
-    image: ghcr.io/mealie-recipes/mealie:v3.10.0 # 
+    image: ghcr.io/mealie-recipes/mealie:v3.10.2 # 
     container_name: mealie
     ports:
         - "9925:9000" # 
