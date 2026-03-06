@@ -1,6 +1,6 @@
 services:
   readeck:
-    image: codeberg.org/readeck/readeck:0.21.6
+    image: codeberg.org/readeck/readeck:0.22.0
     restart: always
     volumes:
       - "readeck:/readeck"
