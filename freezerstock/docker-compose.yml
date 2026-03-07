@@ -1,8 +1,6 @@
 services:
   backend:
     image: ghcr.io/d-kholin/freezerstock-backend:nightly
-    ports:
-      - "3001:3001"
     volumes:
       - freezerstock-data:/app/data
     environment:
@@ -19,7 +17,7 @@ services:
   frontend:
     image: ghcr.io/d-kholin/freezerstock-frontend:nightly
     ports:
-      - "3000:3000"
+      - "${FRONTEND_PORT:-3000}:3000"
     depends_on:
       backend:
         condition: service_healthy
