@@ -1,0 +1,29 @@
+services:
+  backend:
+    image: ghcr.io/d-kholin/freezerstock-backend:latest
+    ports:
+      - "3001:3001"
+    volumes:
+      - freezerstock-data:/app/data
+    environment:
+      - NODE_ENV=production
+      - DATABASE_PATH=/app/data/freezerstock.db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/health', r => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  frontend:
+    image: ghcr.io/d-kholin/freezerstock-frontend:nightly
+    ports:
+      - "3000:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  freezerstock-data:
