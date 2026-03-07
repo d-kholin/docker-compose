@@ -1,6 +1,6 @@
 services:
   backend:
-    image: ghcr.io/d-kholin/freezerstock-backend:latest
+    image: ghcr.io/d-kholin/freezerstock-backend:nightly
     ports:
       - "3001:3001"
     volumes:
