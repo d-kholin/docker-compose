@@ -1,6 +1,6 @@
 services:
   backend:
-    image: ghcr.io/d-kholin/freezerstock-backend:v1.1.4
+    image: ghcr.io/d-kholin/freezerstock-backend:v1.1.5
     volumes:
       - freezerstock-data:/app/data
     environment:
@@ -15,7 +15,7 @@ services:
       start_period: 10s
 
   frontend:
-    image: ghcr.io/d-kholin/freezerstock-frontend:v1.1.4
+    image: ghcr.io/d-kholin/freezerstock-frontend:v1.1.5
     ports:
       - "${FRONTEND_PORT:-3000}:3000"
     depends_on:
