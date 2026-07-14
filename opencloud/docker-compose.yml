@@ -1,0 +1,99 @@
+# OpenCloud + Collabora
+# TLS terminated at Caddy. OpenCloud serves HTTP internally on :9200, Collabora on :9980.
+# Secrets come from ../stack.env (lives on the host, not in git).
+
+services:
+
+  opencloud:
+    image: opencloudeu/opencloud-rolling:latest
+    user: "1000:1000"
+    env_file: ../stack.env
+    entrypoint: ["/bin/sh"]
+    command: ["-c", "opencloud init || true; opencloud server"]
+    environment:
+      OC_URL: "https://${OC_DOMAIN}"
+      OC_LOG_LEVEL: "warn"
+      OC_LOG_COLOR: "false"
+      OC_LOG_PRETTY: "false"
+
+      # TLS terminated at Caddy
+      PROXY_TLS: "false"
+      PROXY_HTTP_ADDR: "0.0.0.0:9200"
+      OC_INSECURE: "false"
+      PROXY_ENABLE_BASIC_AUTH: "false"
+
+      IDM_ADMIN_PASSWORD: "${OC_ADMIN_PASSWORD}"
+
+      OC_PASSWORD_POLICY_MIN_CHARACTERS: "8"
+      OC_PASSWORD_POLICY_MIN_LOWERCASE_CHARACTERS: "1"
+      OC_PASSWORD_POLICY_MIN_UPPERCASE_CHARACTERS: "1"
+      OC_PASSWORD_POLICY_MIN_DIGITS: "1"
+      OC_PASSWORD_POLICY_MIN_SPECIAL_CHARACTERS: "1"
+      OC_PASSWORD_POLICY_BANNED_PASSWORDS_LIST: "banned-password-list.txt"
+
+      PROXY_CSP_CONFIG_FILE_LOCATION: "/etc/opencloud/csp.yaml"
+      COLLABORA_DOMAIN: "${COLLABORA_DOMAIN}"
+
+      OC_ADD_RUN_SERVICES: "collaboration"
+      FRONTEND_APP_HANDLER_SECURE_VIEW_APP_ADDR: "eu.opencloud.api.collaboration"
+      GRAPH_AVAILABLE_ROLES: "b1e2218d-eef8-4d4c-b82d-0f1a1b48f3b5,a8d5fe5e-96e3-418d-825b-534dbdf22b99,fb6c3e19-e378-47e5-b277-9732f9de6e21,58c63c02-1d89-4572-916a-870abc5a1b7d,2d00ce52-1fc2-4dbc-8b95-a73b73395f5a,1c996275-f1c9-4e71-abdf-a42f6495e960,312c0871-5ef7-4b3a-85b6-0e4074c64049,aa97fe03-7980-45ac-9e50-b325749fd7e6"
+      COLLABORATION_WOPI_SRC: "https://${OC_DOMAIN}"
+      COLLABORATION_APP_NAME: "CollaboraOnline"
+      COLLABORATION_APP_PRODUCT: "Collabora"
+      COLLABORATION_APP_ADDR: "https://${COLLABORA_DOMAIN}"
+      COLLABORATION_APP_ICON: "https://${COLLABORA_DOMAIN}/favicon.ico"
+      COLLABORATION_APP_INSECURE: "false"
+      COLLABORATION_CS3API_DATAGATEWAY_INSECURE: "false"
+    volumes:
+      - ./config/opencloud/csp.yaml:/etc/opencloud/csp.yaml
+      - ./config/opencloud/banned-password-list.txt:/etc/opencloud/banned-password-list.txt
+      - opencloud-config:/etc/opencloud
+      - opencloud-data:/var/lib/opencloud
+    ports:
+      - "9200:9200"
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:9200/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  collabora:
+    image: collabora/code:latest
+    entrypoint: ["/bin/bash", "-c"]
+    command: ["coolconfig generate-proof-key && /start-collabora-online.sh"]
+    environment:
+      aliasgroup1: "https://${OC_DOMAIN}"
+      DONT_GEN_SSL_CERT: "YES"
+      extra_params: >
+        --o:ssl.enable=false
+        --o:ssl.ssl_verification=false
+        --o:ssl.termination=true
+        --o:welcome.enable=false
+        --o:net.frame_ancestors=${OC_DOMAIN}
+        --o:home_mode.enable=false
+      username: "${COLLABORA_ADMIN_USER}"
+      password: "${COLLABORA_ADMIN_PASSWORD}"
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - seccomp=unconfined
+      - apparmor:unconfined
+    ports:
+      - "9980:9980"
+    restart: always
+    healthcheck:
+      test:
+        - "CMD"
+        - "bash"
+        - "-c"
+        - "exec 3<>/dev/tcp/127.0.0.1/9980 && printf 'GET /hosting/discovery HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3 && cat <&3 | head -1 | grep -q '200 OK'"
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  opencloud-config:
+  opencloud-data:
