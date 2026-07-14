@@ -29,9 +29,7 @@ services:
       OC_PASSWORD_POLICY_MIN_UPPERCASE_CHARACTERS: "1"
       OC_PASSWORD_POLICY_MIN_DIGITS: "1"
       OC_PASSWORD_POLICY_MIN_SPECIAL_CHARACTERS: "1"
-      OC_PASSWORD_POLICY_BANNED_PASSWORDS_LIST: "banned-password-list.txt"
 
-      PROXY_CSP_CONFIG_FILE_LOCATION: "/etc/opencloud/csp.yaml"
       COLLABORA_DOMAIN: "${COLLABORA_DOMAIN}"
 
       OC_ADD_RUN_SERVICES: "collaboration"
@@ -45,8 +43,6 @@ services:
       COLLABORATION_APP_INSECURE: "false"
       COLLABORATION_CS3API_DATAGATEWAY_INSECURE: "false"
     volumes:
-      - ./config/opencloud/csp.yaml:/etc/opencloud/csp.yaml
-      - ./config/opencloud/banned-password-list.txt:/etc/opencloud/banned-password-list.txt
       - opencloud-config:/etc/opencloud
       - opencloud-data:/var/lib/opencloud
     ports:
