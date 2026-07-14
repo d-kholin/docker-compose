@@ -9,7 +9,51 @@ services:
     user: "1000:1000"
     env_file: ../stack.env
     entrypoint: ["/bin/sh"]
-    command: ["-c", "opencloud init || true; opencloud server"]
+    command:
+      - "-c"
+      - |
+        cat > /etc/opencloud/csp.yaml <<EOF
+        directives:
+          child-src:
+            - "'self'"
+          connect-src:
+            - "'self'"
+            - "blob:"
+            - "https://raw.githubusercontent.com/opencloud-eu/awesome-apps/"
+            - "https://update.opencloud.eu/"
+            - "https://${COLLABORA_DOMAIN}"
+          default-src:
+            - "'none'"
+          font-src:
+            - "'self'"
+          frame-ancestors:
+            - "'self'"
+          frame-src:
+            - "'self'"
+            - "blob:"
+            - "https://embed.diagrams.net/"
+            - "https://${COLLABORA_DOMAIN}"
+          img-src:
+            - "'self'"
+            - "data:"
+            - "blob:"
+            - "https://raw.githubusercontent.com/opencloud-eu/awesome-apps/"
+          manifest-src:
+            - "'self'"
+          media-src:
+            - "'self'"
+          object-src:
+            - "'self'"
+            - "blob:"
+          script-src:
+            - "'self'"
+            - "'unsafe-inline'"
+          style-src:
+            - "'self'"
+            - "'unsafe-inline'"
+        EOF
+        opencloud init || true
+        opencloud server
     environment:
       OC_URL: "https://${OC_DOMAIN}"
       OC_LOG_LEVEL: "warn"
@@ -21,6 +65,7 @@ services:
       PROXY_HTTP_ADDR: "0.0.0.0:9200"
       OC_INSECURE: "false"
       PROXY_ENABLE_BASIC_AUTH: "false"
+      PROXY_CSP_CONFIG_FILE_LOCATION: "/etc/opencloud/csp.yaml"
 
       IDM_ADMIN_PASSWORD: "${OC_ADMIN_PASSWORD}"
 
@@ -39,6 +84,7 @@ services:
       COLLABORATION_APP_NAME: "CollaboraOnline"
       COLLABORATION_APP_PRODUCT: "Collabora"
       COLLABORATION_APP_ADDR: "https://${COLLABORA_DOMAIN}"
+      # NOTE: must be the public URL — also used to generate the frontend's CSP frame-src
       COLLABORATION_APP_ICON: "https://${COLLABORA_DOMAIN}/favicon.ico"
       COLLABORATION_APP_INSECURE: "false"
       COLLABORATION_CS3API_DATAGATEWAY_INSECURE: "false"
