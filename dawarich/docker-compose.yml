@@ -2,7 +2,7 @@ networks:
   dawarich:
 services:
   dawarich_app:
-    image: freikin/dawarich:1.9.2
+    image: freikin/dawarich:1.10.1
     container_name: dawarich_app
     volumes:
       - dawarich_public:/var/app/public
