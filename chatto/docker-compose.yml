@@ -6,7 +6,7 @@
 
 services:
   chatto-nats:
-    image: nats:2
+    image: nats:2.14.3
     container_name: chatto-nats
     command: ["--jetstream", "--store_dir=/data", "--auth=${CHATTO_NATS_TOKEN}"]
     volumes:
@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
 
   chatto-livekit:
-    image: livekit/livekit-server:latest
+    image: livekit/livekit-server:v1.13.4
     container_name: chatto-livekit
     command: ["--config", "/etc/livekit.yaml"]
     environment:
@@ -39,7 +39,7 @@ services:
     restart: unless-stopped
 
   chatto:
-    image: ghcr.io/chattocorp/chatto:latest
+    image: ghcr.io/chattocorp/chatto:0.0.193
     container_name: chatto
     env_file:
       - ../stack.env
