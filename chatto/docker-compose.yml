@@ -54,7 +54,7 @@ services:
     restart: unless-stopped
 
   chatto:
-    image: ghcr.io/chattocorp/chatto:0.0.193
+    image: ghcr.io/chattocorp/chatto:0.4.14
     container_name: chatto
     env_file:
       - ../stack.env
