@@ -1,0 +1,21 @@
+port: 7880
+
+rtc:
+  tcp_port: 7881
+  udp_port: 7882
+  use_external_ip: true
+
+turn:
+  enabled: true
+  udp_port: 3478
+
+# api_key is a public identifier, not a secret — the actual secret is supplied
+# at runtime via the LIVEKIT_KEYS env var (see docker-compose.yml), and must
+# match CHATTO_LIVEKIT_API_KEY / CHATTO_LIVEKIT_API_SECRET in stack.env.
+webhook:
+  api_key: chatto
+  urls:
+    - https://chat.thegriffiths.ca/webhooks/livekit
+
+logging:
+  level: info

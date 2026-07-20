@@ -1,0 +1,69 @@
+# Chatto (self-hosted team chat) + NATS + LiveKit
+# TLS terminated at the shared Caddy reverse proxy. Chatto serves HTTP internally on :4000,
+# LiveKit signaling on :7880 (also proxied). WebRTC media ports are published directly and
+# bypass Caddy — see the port comments below for what needs to stay open on the firewall.
+# Secrets come from ../stack.env (lives on the host, not in git).
+
+services:
+  chatto-nats:
+    image: nats:2
+    container_name: chatto-nats
+    command: ["--jetstream", "--store_dir=/data", "--auth=${CHATTO_NATS_TOKEN}"]
+    volumes:
+      - chatto-nats-data:/data
+    healthcheck:
+      test: ["CMD", "nats-server", "--help"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+
+  chatto-livekit:
+    image: livekit/livekit-server:latest
+    container_name: chatto-livekit
+    command: ["--config", "/etc/livekit.yaml"]
+    environment:
+      LIVEKIT_KEYS: "${CHATTO_LIVEKIT_API_KEY}: ${CHATTO_LIVEKIT_API_SECRET}"
+    volumes:
+      - ./livekit.yaml:/etc/livekit.yaml:ro
+    ports:
+      - 7880:7880       # WebSocket signaling, proxied via Caddy on livekit.chat.thegriffiths.ca
+      - 7881:7881       # WebRTC media fallback (TCP) when UDP is unavailable
+      - 7882:7882/udp   # WebRTC media (direct)
+      - 3478:3478/udp   # Embedded TURN/STUN relay
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:7880"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+
+  chatto:
+    image: ghcr.io/chattocorp/chatto:latest
+    container_name: chatto
+    env_file:
+      - ../stack.env
+    environment:
+      PUID: "${PUID:-1000}"
+      PGID: "${PGID:-1000}"
+      CHATTO_NATS_EMBEDDED_ENABLED: "false"
+      CHATTO_NATS_CLIENT_URL: "nats://chatto-nats:4222"
+      CHATTO_NATS_CLIENT_AUTH_METHOD: "token"
+      CHATTO_NATS_CLIENT_TOKEN: "${CHATTO_NATS_TOKEN}"
+      CHATTO_WEBSERVER_URL: "https://${CHATTO_DOMAIN}"
+      CHATTO_WEBSERVER_PORT: "4000"
+      CHATTO_LIVEKIT_ENABLED: "true"
+      CHATTO_LIVEKIT_URL: "wss://${CHATTO_LIVEKIT_DOMAIN}"
+      CHATTO_OPERATOR_API_ENABLED: "true"
+      CHATTO_OPERATOR_API_SOCKET_PATH: "/tmp/chatto/operator.sock"
+    depends_on:
+      chatto-nats:
+        condition: service_healthy
+      chatto-livekit:
+        condition: service_healthy
+    ports:
+      - 4001:4000
+    restart: unless-stopped
+
+volumes:
+  chatto-nats-data:
