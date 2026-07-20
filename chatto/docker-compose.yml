@@ -21,11 +21,26 @@ services:
   chatto-livekit:
     image: livekit/livekit-server:v1.13.4
     container_name: chatto-livekit
-    command: ["--config", "/etc/livekit.yaml"]
     environment:
       LIVEKIT_KEYS: "${CHATTO_LIVEKIT_API_KEY}: ${CHATTO_LIVEKIT_API_SECRET}"
-    volumes:
-      - ./livekit.yaml:/etc/livekit.yaml:ro
+      # Inlined (rather than a mounted ./livekit.yaml) so this stack deploys from
+      # a single file in Portainer, which doesn't ship sibling files alongside
+      # a web-editor stack's docker-compose.yml.
+      LIVEKIT_CONFIG: |
+        port: 7880
+        rtc:
+          tcp_port: 7881
+          udp_port: 7882
+          use_external_ip: true
+        turn:
+          enabled: true
+          udp_port: 3478
+        webhook:
+          api_key: chatto
+          urls:
+            - https://${CHATTO_DOMAIN}/webhooks/livekit
+        logging:
+          level: info
     ports:
       - 7880:7880       # WebSocket signaling, proxied via Caddy on livekit.chat.thegriffiths.ca
       - 7881:7881       # WebRTC media fallback (TCP) when UDP is unavailable
