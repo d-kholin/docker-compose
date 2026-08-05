@@ -1,7 +1,7 @@
 services:
   audiobookshelf:
     restart: unless-stopped
-    image: ghcr.io/advplyr/audiobookshelf:2.13.3
+    image: ghcr.io/advplyr/audiobookshelf:2.36.0
     ports:
       - '8097:80'
     volumes:
