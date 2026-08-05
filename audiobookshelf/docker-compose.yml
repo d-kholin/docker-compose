@@ -1,0 +1,17 @@
+services:
+  audiobookshelf:
+    restart: unless-stopped
+    image: ghcr.io/advplyr/audiobookshelf:2.13.3
+    ports:
+      - '8097:80'
+    volumes:
+      - audiobooks:/audiobooks
+      - podcasts:/podcasts
+      - config:/config
+      - metadata:/metadata
+
+volumes:
+  audiobooks: {}
+  podcasts: {}
+  config: {}
+  metadata: {}
