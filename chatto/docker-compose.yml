@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
 
   chatto-livekit:
-    image: livekit/livekit-server:v1.13.4
+    image: livekit/livekit-server:v1.13.5
     container_name: chatto-livekit
     environment:
       LIVEKIT_KEYS: "${CHATTO_LIVEKIT_API_KEY}: ${CHATTO_LIVEKIT_API_SECRET}"
