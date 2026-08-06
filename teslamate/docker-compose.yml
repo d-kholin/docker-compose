@@ -46,7 +46,7 @@ services:
       - teslamate-db:/var/lib/postgresql
 
   grafana:
-    image: teslamate/grafana:3.1.0
+    image: teslamate/grafana:4.0.1
     restart: always
     environment:
       - DATABASE_USER=${TESLAMATE_DB_USER}
