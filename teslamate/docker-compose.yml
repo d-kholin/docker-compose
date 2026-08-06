@@ -1,6 +1,6 @@
 services:
   teslamateapi:
-    image: tobiasehlert/teslamateapi:latest
+    image: tobiasehlert/teslamateapi:1.25.0
     restart: always
     depends_on:
       - database
@@ -19,7 +19,7 @@ services:
 
       
   teslamate:
-    image: teslamate/teslamate:latest
+    image: teslamate/teslamate:4.0.1
     restart: always
     environment:
       - ENCRYPTION_KEY=${TESLAMATE_ENCRYPTION_KEY}
@@ -46,7 +46,7 @@ services:
       - teslamate-db:/var/lib/postgresql
 
   grafana:
-    image: teslamate/grafana:latest
+    image: teslamate/grafana:3.1.0
     restart: always
     environment:
       - DATABASE_USER=${TESLAMATE_DB_USER}
