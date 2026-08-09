@@ -1,8 +1,7 @@
 ---
 services:
   calibre-web-automated:
-    #image: crocodilestick/calibre-web-automated:v4.0.6
-    image: ghcr.io/d-kholin/calibre-web-automated:1.2
+    image: crocodilestick/calibre-web-automated:v4.0.6
     container_name: calibre-web-automated
     volumes:
       - config:/config
