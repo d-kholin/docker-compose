@@ -19,7 +19,7 @@ services:
 
       
   teslamate:
-    image: teslamate/teslamate:4.0.1
+    image: teslamate/teslamate:4.1.1
     restart: always
     environment:
       - ENCRYPTION_KEY=${TESLAMATE_ENCRYPTION_KEY}
