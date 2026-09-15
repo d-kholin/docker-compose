@@ -6,7 +6,7 @@
 
 services:
   chatto-nats:
-    image: nats:2.14.4
+    image: nats:2.14.6
     container_name: chatto-nats
     command: ["--jetstream", "--store_dir=/data", "--auth=${CHATTO_NATS_TOKEN}"]
     volumes:
